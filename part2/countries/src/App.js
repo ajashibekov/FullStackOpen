@@ -11,22 +11,45 @@ const Filter = ({countryFilter, setCountryFilter}) => {
   )
 }
 
-const CountryList = ({countryFilter, allCountries}) => {
+const CountryEntry = ({country, onClick}) => {
+  return (
+    <li>
+    <p>{country.name.common}</p>
+    <button onClick={onClick}>Show</button>
+    </li>
+  )
+}
+
+const CountryList = ({countryFilter, allCountries, selectedCountry, setSelectedCountry}) => {
   const regex = new RegExp(countryFilter, 'i')
   if(allCountries === undefined) return <></>
 
   const filteredCountries = allCountries.filter(country => country.name.common.match(regex))
+  const onShowClick = (country) => {
+    setSelectedCountry(country.name.common)
+  }
 
   if(filteredCountries.length > 10) return <p>Too many matches, specify another filter</p>
   else if (filteredCountries.length === 1){
     return <CountryInfo countryInfo={filteredCountries[0]} />
   }
-  else return (
-    <ul>
-      {filteredCountries.map(country => 
-        <li key={country.name.common}>{country.name.common}</li>)}
-    </ul>
-  )
+  else{ 
+    if(selectedCountry) {
+      const countryInfo = filteredCountries.filter(country => country.name.common === selectedCountry)
+      return (
+        <div>
+          <CountryInfo countryInfo={countryInfo[0]} />
+          <button onClick={() => setSelectedCountry('')}>Back</button>
+        </div>
+      )
+    }
+    else return (
+      <ul>
+        {filteredCountries.map(country => <CountryEntry country={country} key={country.name.common}
+           onClick={() => onShowClick(country)} />)}
+      </ul>
+    )
+  }
 }
 
 const CountryInfo = ({countryInfo}) => {
@@ -49,6 +72,7 @@ const CountryInfo = ({countryInfo}) => {
 const App = () => {
   const [countryFilter, setCountryFilter] = useState('')
   const [allCountries, setAllCountries] = useState()
+  const [selectedCountry, setSelectedCountry] = useState('')
 
   useEffect(
     () => {
@@ -63,7 +87,8 @@ const App = () => {
     <div>
       <Filter countryFilter={countryFilter} setCountryFilter={setCountryFilter} />
       <br />
-      <CountryList countryFilter={countryFilter} allCountries={allCountries} />
+      <CountryList countryFilter={countryFilter} allCountries={allCountries} 
+          selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
     </div>
   )
 }

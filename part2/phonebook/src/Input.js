@@ -1,13 +1,4 @@
-const Input = ({name, setNewName, personsArr, setPersonsArr, phone, setNewPhone}) => {
-
-    const handleSubmit = (event) => {
-      event.preventDefault()
-      if(personsArr.find(elem => elem.name === name) !== undefined)
-        alert(`${name} has been added previously!`)
-      else setPersonsArr([...personsArr, {name: name, number: phone, id: personsArr.length + 1}])
-      name=''
-      phone=''
-    }
+const Input = ({name, setNewName, phone, setNewPhone, handleSubmit}) => {
   
     const handleNameChange = (event) => {
       setNewName(event.target.value)

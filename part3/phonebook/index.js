@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     { 
       "id": 1,
@@ -41,6 +43,24 @@ app.get('/api/persons/:id', (request, response) => {
         response.json(person)
     else 
         response.status(404).end()
+})
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+    if(!body.name)
+      return response.status(400).send('No name provided')
+    if(!body.number)
+      return response.status(400).send('No number provided')
+    if(persons.find(p => p.name === body.name))
+      return response.status(400).send('Entry with such name already exists!')
+    
+    let id = Math.floor(Math.random() * 1e7)
+    while(persons.find(p => p.id === id) !== undefined){
+      id++
+    }
+    let toAdd = {id: id, ...body}
+    persons = persons.concat(toAdd)
+    response.json(toAdd)
 })
 
 app.delete('/api/persons/:id', (request, response) => {

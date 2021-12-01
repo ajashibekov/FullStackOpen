@@ -35,8 +35,9 @@ const App = () => {
             setNotif({message: `Numer of ${newName} has been successfully changed`, color: 'green'})
             setTimeout(() => setNotif(null), NOTIF_SHOW_PERIOD)
           })
-          .catch((err) => {
-            setNotif({message: `Information of ${person.name} has already been deleted from the server`, color: 'red'})
+          .catch((error) => {
+            console.log(error.response)
+            setNotif({message: error.response.data.error, color: 'red'})
             setTimeout(() => setNotif(null), NOTIF_SHOW_PERIOD)
           })
       }
@@ -52,7 +53,11 @@ const App = () => {
           setNewName('')
           setNewPhone('')
           setTimeout(() => setNotif(null), NOTIF_SHOW_PERIOD)
-        }).catch(error => console.log(error))
+        }).catch(error => {
+          console.log(error.response)
+          setNotif({message: error.response.data.error, color: 'red'})
+          setTimeout(() => setNotif(null), NOTIF_SHOW_PERIOD)
+        })
       }
   }
 

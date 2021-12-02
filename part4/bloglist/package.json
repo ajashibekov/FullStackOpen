@@ -1,0 +1,25 @@
+{
+  "name": "bloglist",
+  "version": "1.0.0",
+  "description": "Part 4 of FullStackOpen course",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "lint": "eslint ."
+  },
+  "author": "Abay",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.14"
+  },
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "nodemon": "^2.0.15"
+  }
+}
